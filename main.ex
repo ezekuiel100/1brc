@@ -1,8 +1,11 @@
-stats = Map.new()
+stats =
+  File.stream!("data.txt")
+  |> Enum.map(&String.trim/1)
+  |> Enum.reject(&(&1 == ""))
+  |> Enum.reduce(%{}, fn line, acc ->
+    [location, temp] = String.split(line, ";")
 
-File.stream!("data.txt")
-|> Enum.map(fn line ->
-  [location, temp] = String.split(line, ";")
-  stats = Map.put(stats, location, temp)
-  IO.inspect(stats)
-end)
+    Map.put(acc, "#{location}", temp)
+  end)
+
+IO.inspect(stats)
