@@ -1,0 +1,2 @@
+*.ex  linguist-language=Elixir
+/diretorio/ *.txt linguist-language=C++
