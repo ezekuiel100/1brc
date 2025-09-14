@@ -16,9 +16,9 @@ stats =
       min = min(temp, minValue)
 
       newValue = [
-        sum: max + min,
-        max: max,
-        min: min,
+        sum: Float.round(value[:sum] + temp, 2),
+        max: Float.round(max),
+        min: Float.round(min),
         count: value[:count] + 1
       ]
 
