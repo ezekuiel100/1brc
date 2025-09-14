@@ -4,13 +4,27 @@ stats =
   |> Enum.reject(&(&1 == ""))
   |> Enum.reduce(%{}, fn line, acc ->
     [location, temp] = String.split(line, ";")
+    {temp, _} = Float.parse(temp)
 
     if acc[location] do
       value = Map.get(acc, location)
-      newValue = [max: temp, min: temp, count: value[:count] + 1]
+
+      maxValue = value[:max]
+      minValue = value[:min]
+
+      max = max(temp, maxValue)
+      min = min(temp, minValue)
+
+      newValue = [
+        sum: max + min,
+        max: max,
+        min: min,
+        count: value[:count] + 1
+      ]
+
       Map.put(acc, "#{location}", newValue)
     else
-      Map.put(acc, "#{location}", max: temp, min: temp, count: 1)
+      Map.put(acc, "#{location}", sum: temp, max: temp, min: temp, count: 1)
     end
   end)
 
